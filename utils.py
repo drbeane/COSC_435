@@ -30,9 +30,10 @@ def render_mp4(videopath):
     return f'<video width=400 controls><source src="data:video/mp4;' \
            f'base64,{base64_encoded_mp4}" type="video/mp4"></video>'
 
+
 def record_episode(
     env, policy, steps=250, env_seed=None, action_seed=None, 
-    fps=30, updates=False, fname='temp'):
+    fps=30, updates=False, fname='temp', vec_env=False):
 
     from gym.wrappers import RecordVideo
     import os
@@ -44,9 +45,9 @@ def record_episode(
     vid_env.metadata['render_fps'] = 60
 
     if env_seed is None:
-        state = vid_env.reset()
+        obs = vid_env.reset()
     else:
-        state = vid_env.reset(seed=env_seed)
+        obs = vid_env.reset(seed=env_seed)
         
     if action_seed is not None:
         vid_env.action_space.seed(action_seed)
@@ -56,8 +57,12 @@ def record_episode(
 
 
     for i in range(steps):
-        a = policy(env, state)
-        obs, reward, terminated, truncated, info = vid_env.step(a)
+        a = policy(env, obs)
+        
+        if vec_env:
+            obs, reward, terminated, truncated, info = vid_env.step([a])
+        else:
+            obs, reward, terminated, truncated, info = vid_env.step(a)
         s = str(obs)
 
         if updates:
@@ -78,5 +83,5 @@ def record_episode(
     display(HTML(html))
 
 
-def random_action(env, state):
+def random_action(env, obs):
     return env.action_space.sample()

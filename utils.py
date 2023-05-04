@@ -39,7 +39,7 @@ def record_episode(
     import shutil
     from IPython.display import HTML
 
-    #if os.path.exists('temp_videos'): shutil.rmtree('temp_videos')
+    if os.path.exists('temp_videos'): shutil.rmtree('temp_videos')
     vid_env = RecordVideo(env, video_folder='temp_videos', name_prefix=fname, new_step_api=True)
 
     if env_seed is None:

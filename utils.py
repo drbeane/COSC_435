@@ -32,7 +32,7 @@ def render_mp4(videopath):
 
 def record_episode(
     env, policy, steps=250, env_seed=None, action_seed=None, 
-    updates=False, fname='temp'):
+    fps=30, updates=False, fname='temp'):
 
     from gym.wrappers import RecordVideo
     import os
@@ -41,6 +41,7 @@ def record_episode(
 
     if os.path.exists('temp_videos'): shutil.rmtree('temp_videos')
     vid_env = RecordVideo(env, video_folder='temp_videos', name_prefix=fname, new_step_api=True)
+    vid_env.metadata['render_fps'] = 60
 
     if env_seed is None:
         state = vid_env.reset()

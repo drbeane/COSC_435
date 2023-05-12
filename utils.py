@@ -33,7 +33,7 @@ def render_mp4(videopath):
 
 def record_episode(
     env, policy, steps=250, env_seed=None, action_seed=None, 
-    fps=30, updates=False, fname='temp', vec_env=False):
+    fps=30, updates=False, filename='temp', vec_env=False):
 
     from gym.wrappers import RecordVideo
     import os
@@ -57,7 +57,7 @@ def record_episode(
 
 
     for i in range(steps):
-        a = policy(env, obs)
+        a = policy(vid_env, obs)
         
         if vec_env:
             obs, reward, terminated, truncated, info = vid_env.step([a])

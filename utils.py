@@ -76,10 +76,10 @@ def record_episode(
     vid_env.close()
 
     if not os.path.exists('videos'): os.mkdir('videos')
-    shutil.move(f'/content/temp_videos/{fname}-episode-0.mp4', f'/content/videos/{fname}.mp4')
+    shutil.move(f'/content/temp_videos/{filename}-episode-0.mp4', f'/content/videos/{filename}.mp4')
     shutil.rmtree('temp_videos')
 
-    html = render_mp4(f'/content/videos/{fname}.mp4')
+    html = render_mp4(f'/content/videos/{filename}.mp4')
     display(HTML(html))
 
 

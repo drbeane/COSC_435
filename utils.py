@@ -42,7 +42,7 @@ def record_episode(
 
     if os.path.exists('temp_videos'): shutil.rmtree('temp_videos')
     vid_env = RecordVideo(env, video_folder='temp_videos', name_prefix=filename, new_step_api=True)
-    vid_env.metadata['render_fps'] = 60
+    vid_env.metadata['render_fps'] = fps
 
     if env_seed is None:
         obs = vid_env.reset()

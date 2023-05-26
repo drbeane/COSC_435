@@ -45,9 +45,9 @@ def record_episode(
     vid_env.metadata['render_fps'] = fps
 
     if env_seed is None:
-        obs = vid_env.reset()
+        obs, info = vid_env.reset()
     else:
-        obs = vid_env.reset(seed=env_seed)
+        obs, info = vid_env.reset(seed=env_seed)
         
     if action_seed is not None:
         vid_env.action_space.seed(action_seed)

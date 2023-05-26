@@ -57,7 +57,10 @@ def record_episode(
 
 
     for i in range(steps):
-        a = policy(vid_env, obs)
+        if type(policy) == dict:
+            a = policy[obs]
+        else:
+            a = policy(vid_env, obs)
         
         if vec_env:
             obs, reward, terminated, truncated, info = vid_env.step([a])

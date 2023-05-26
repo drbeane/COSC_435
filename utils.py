@@ -71,7 +71,7 @@ def record_episode(
         if updates:
             print(f'{i:<6}{a:<8}{s:30}{reward:<8}{str(terminated):<12}{str(info):<8}')
 
-        if terminated or truncated:
+        if terminated:
             break
 
     print(i + 1, 'steps completed.')

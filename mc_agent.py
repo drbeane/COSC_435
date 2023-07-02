@@ -29,7 +29,7 @@ class MCAgent:
 if __name__ == '__main__':
     import gymnasium as gym
     from gymnasium.envs.toy_text.frozen_lake import generate_random_map
-    from environments import FrozenLakeMod
+    from envs import FrozenLakeMod
 
     env = gym.make(
         'FrozenLake-v1',
@@ -42,4 +42,5 @@ if __name__ == '__main__':
 
     env.reset()
     print(env.render())
+    
     

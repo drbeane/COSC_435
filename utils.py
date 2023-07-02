@@ -92,15 +92,24 @@ def random_action(env, obs):
 '''
 ToDo: Set some kind of seed. 
 '''
-def success_rate(env, policy, n, max_steps=1000):
+def success_rate(env, policy, n, max_steps=1000, seed=None):
+    import numpy as np
+    
     goal_count = 0
+    fail_count = 0
     total_eps = 0
     total_eps_s = 0
     total_eps_f = 0
     
+    if seed is not None:
+        np.random.seed(seed)
+        seeds = np.random.choice(range(10**4), n)
+    
+    
     for i in range(n):
-        obs, info = env.reset()
-
+        sd = None if seed is None else int(seeds[i])
+        obs, info = env.reset(seed=sd)
+        
         for j in range(max_steps):
             try:
                 a = policy[obs]
@@ -114,14 +123,15 @@ def success_rate(env, policy, n, max_steps=1000):
             goal_count += 1
             total_eps_s += j
         else:
+            fail_count += 1
             total_eps_f += j
 
     sr = goal_count / n
     info = {
         'sr' : sr,
         'avg_len' : total_eps / n,
-        'avg_len_s' : total_eps_s / goal_count,
-        'avg_len_f' : total_eps_f / (n - goal_count),
+        'avg_len_s' : None if goal_count == 0 else total_eps_s / goal_count,
+        'avg_len_f' : None if fail_count == 0 else total_eps_f / fail_count
         
     }
 

@@ -72,7 +72,7 @@ if __name__ == '__main__':
     frozen_lake_show_value(env, mc.V, digits=3)
     print()
     
-    sr, info = success_rate(env, policy=random_policy, n=1000, max_steps=50)
+    sr, info = success_rate(env, policy=random_policy, n=1000, max_steps=50, seed=1)
     
     print(sr)
     print(info)

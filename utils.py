@@ -38,7 +38,7 @@ def record_episode(
     from gym.wrappers import RecordVideo
     import os
     import shutil
-    from IPython.display import HTML
+    from IPython.display import display, HTML
 
     if os.path.exists('temp_videos'): shutil.rmtree('temp_videos')
     vid_env = RecordVideo(env, video_folder='temp_videos', name_prefix=filename, new_step_api=True)
@@ -88,3 +88,25 @@ def record_episode(
 
 def random_action(env, obs):
     return env.action_space.sample()
+
+
+def success_rate(env, policy, n, max_steps=1000):
+    goal_count = 0
+    total_eps = 0
+    for i in range(n):
+        obs, info = env.reset()
+
+        for j in range(max_steps):
+            try:
+                a = policy[obs]
+            except:
+                a = env.action_space.sample()
+            obs, reward, terminated, truncated, info = env.step(a)
+            if terminated:
+                #print(reward)
+                break
+        total_eps += j
+        if env.unwrapped.s == env.observation_space.n - 1:
+            goal_count += 1
+
+    return goal_count / n, total_eps /n

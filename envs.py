@@ -19,3 +19,12 @@ class FrozenLakeMod(gym.Wrapper):
             reward = self.rew[0]
 
         return obs, reward, terminated, truncated, info
+    
+    
+def frozen_lake_show_value(env, V, digits):
+    import numpy as np
+    num_states = env.observation_space.n
+    n = round(num_states**0.5)
+    V_list = [V[s] for s in range(num_states)]
+    V_array = np.array(V_list).reshape((n,n)).round(digits)
+    print(V_array)

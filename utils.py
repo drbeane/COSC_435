@@ -89,10 +89,15 @@ def record_episode(
 def random_action(env, obs):
     return env.action_space.sample()
 
-
+'''
+ToDo: Set some kind of seed. 
+'''
 def success_rate(env, policy, n, max_steps=1000):
     goal_count = 0
     total_eps = 0
+    total_eps_s = 0
+    total_eps_f = 0
+    
     for i in range(n):
         obs, info = env.reset()
 
@@ -103,10 +108,21 @@ def success_rate(env, policy, n, max_steps=1000):
                 a = env.action_space.sample()
             obs, reward, terminated, truncated, info = env.step(a)
             if terminated:
-                #print(reward)
                 break
         total_eps += j
         if env.unwrapped.s == env.observation_space.n - 1:
             goal_count += 1
+            total_eps_s += j
+        else:
+            total_eps_f += j
 
-    return goal_count / n, total_eps /n
+    sr = goal_count / n
+    info = {
+        'sr' : sr,
+        'avg_len' : total_eps / n,
+        'avg_len_s' : total_eps_s / goal_count,
+        'avg_len_f' : total_eps_f / (n - goal_count),
+        
+    }
+
+    return sr, info
